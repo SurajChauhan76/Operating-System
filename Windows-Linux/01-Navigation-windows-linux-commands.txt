@@ -1,0 +1,459 @@
+Operating System
+----------------
+
+Windows: 1. GUI(Graphical User Interface)
+	 2. CLI(Command Line Interpreter)
+
+Linux: 1. Command Line
+
+The command line interpreter in Linux is called a SHELL, and the language that we'll use to interact with this shell is called BASH.
+
+Basic Operating System Navigation:
+1. Navigating from one directory to another
+2. Getting file information
+3. Removing files and directories
+
+
+File and Text Manipulation:
+1. Searching through your directories
+2. Find a specific file
+3. Copying and pasting
+4. Chaining commands
+
+File path: C:\Users\Suraj\Desktop
+
+In Windows, file systems are assigned to drive letters which look like C, D, or X.
+File systems are used to keep track of the files on our system.
+
+Root Directory: 
+The parent for all other directories in the file system.
+
+1. The root directory of C: would be written C:\, and the root directory of X: would be written X:\.
+2. Subdirectories are separated by backslashes (\), unlike Linux, which uses forward slashes (/).
+-------------------------------------------------------------------------------------------------
+
+Windows CLI:
+1. Command Prompt: cmd.exe
+2. PowerShell: powershell.exe
+-----------------------------
+
+All about ls on powershell: 
+Mode column:  acts as a visual shorthand representing a file or directory’s system properties. Each character position in the string corresponds to a specific attribute. If an attribute is not set, it is represented by a dash (-).
+
+File Attribute Modes (The Get-ChildItem column):
+The attributes always appear in a specific, fixed order:
+1. d (Directory): The item is a folder, not a file.
+2. a (Archive): The file is ready for archiving or backup. Windows sets this automatically when a file is created or modified.
+3. r (Read-only): The file is write-protected and cannot be easily altered or deleted.
+4. h (Hidden): The file is hidden from normal directory listings.
+5. s (System): The item is a critical operating system file.
+6. l (Link/Reparse Point): The item is a symbolic link, hard link, or junction point.
+
+Example: If you see a mode of "dar--", it tells you that the item is a Directory, has its Archive bit set, is Read-only, and is neither hidden nor a system file.
+------------------------------------------------------------
+
+ 
+PowerShell Commands:
+--------------------
+
+1. ls: List all directories.
+e.g. C directories - ls C:\
+
+The C: drive root folder is what we call a Parent Directory and the contents inside are considered Child Directories.
+
+2. Get-Help: Describes the parameters.
+e.g. Get-Help ls -> Text describes the parameters of ls command.
+
+3. Get-Help ls -Full: Gives the detailed description of ls parameters.
+
+4. Update-Help: used to update the help library to new one in PowerShell.
+
+5. ls -Force C:\: Shows the hidden files inside C drive that are not visible using ls.
+-------------------------------------------------------------------------------------
+
+Bash/Linux Commands:
+--------------------
+ls /: lists the contents of root directory.
+ls --help: provides information about the ls command.
+man ls: it also provides information about the ls command.
+
+Flag: --help / man -> used to get the info about the current command.
+
+ls -l /: gives the long list of the root directory.
+
+ls -a: shows the hidden files.
+---------------------------------------------------
+
+Absolute Path: One that starts from the main directory.
+
+Relative Path: The path from your current directory.
+---------------------------------------------------
+Windows + Linux Commands
+------------------------
+5. pwd: Present working directory.
+
+6. cd: change directory.
+
+e.g. C:\Users\suraj> cd C:\Users\suraj\Desktop - changes to Desktop directory using absolute path.
+
+7. cd.. : Move one level up wrt current directory (i.e. exit current directory).
+
+8. cd ..\Desktop: Moves one level up and then change to directory Desktop.
+
+9. cd ~: Moves up to home directory.
+e.g. PS C:\Users\suraj\Documents\My Music> cd ~
+     PS C:\Users\suraj>
+
+10. cd ~\Documents: Returns to home directory and changes to Documents directory.
+e.g. PS C:\Users\suraj\Desktop> cd ~\Documents
+     PS C:\Users\suraj\Documents>
+---------------------------------
+
+11. Tab Completion: Type first few characters then press tab to autocomplete directory. It will give the directory which matches. Keep pressing tab to rotate through all the directories.
+
+tab format result: '.\dir_name\'
+--------------------------------
+
+12. Directory with spaces: Include the directory name in single or double quote. OR give the backtick (`) after each preceding word but no backtick to last word.
+e.g. cd "My Music"
+e.g. cd My` Music
+--------------------------------------------------------------------
+13. Create files and folders:
+
+A. mkdir: Create new directory.
+Windows:
+e.g. mkdir videos
+e.g. mkdir 'My Videos'  - surround with single quote for space
+e.g. mkdir My` Cool` Videos  - use back tick after each word expect the last one.
+
+Linux:
+e.g. mkdir videos
+e.g. mkdir 'My Videos'
+e.g. mkdir My\ Cool\ Videos  - use back slash after each word expect last one.
+
+B. New-Item or ni: Create new file.
+e.g. PS C:\Users\suraj\Desktop\OS Command Practice Folder> New-Item 1.txt
+e.g. PS C:\Users\suraj\Desktop\OS Command Practice Folder> New-Item 1.txt -FileType File
+e.g. PS C:\Users\suraj\Desktop\OS Command Practice Folder> ni 1.txt
+
+C. Create File with Content / Override Content.
+e.g. PS C:\Users\suraj\Desktop\OS Command Practice Folder> "Hello world" > 1.txt   # This creates a new 1.txt file with content specified in double quotes. If file already exists then content is overridden.
+
+Note:
+- Folder → mkdir
+- File → New-Item/ni (PowerShell) or touch (Linux/macOS)
+-----------------------------------------------------
+
+14. History: shows the history of the commands that we have used.
+ - Use 'UP' arrow to go to previous command
+ - 'Down' arrows to go to next of previous command
+ - 'Ctrl-R': to search for the history
+ - '#mkdir' tab: to search for history in older version of power shell if ctrl-R feature is not available.
+
+e.g. PS C:\Users\suraj> cd Documents
+	bck-i-search: Do_
+Here searching only 'Do' gives the matching directory in above command line
+
+15. clear: clears the screen output
+
+Linux:
+history, up-down arrows, ctrl-R, clear
+----------------------------------------------------------------------------
+
+16. Create Copy:
+
+To create file or folder with same name:
+A. GUI: copy and paste
+
+In Windows, the hotkey for copy is 'Ctrl-C', and the hotkey for paste is 'Ctrl-V'.
+
+B. Shell: 'cp' - is used with folder/directory we want to copy and then specifying the path where we need to create the copy.
+e.g. PS C:\Users\suraj\Documents> cp mycoolfile.txt C:\Users\suraj\Desktop\
+
+Note: mycoolfile.txt is not a file its a folder/directory.
+---------------------------------------------------------
+
+17. Wildcard (*): A character that's used to select files based on a certain pattern.
+
+e.g. PS C:\Users\suraj\Documents> cp *.jpg C:\Users\suraj\Desktop\	|| cp *.jpg ~\Desktop ->press tab to get the autocomplete like preceding one.
+
+Note: After * all the items with pattern '.jpg' will be copied to Desktop.
+-------------------------------------------------------------------------
+18. Copy with Content Inside:
+
+# cp dir_name path : This copies the directory only not the content inside of it. To copy the content as well use '-Recurse'
+
+* Recurse: List the contents of the directory.
+* Verbose: Verbose outputs the details of the content that being copied. Copy doesn't output anything to the CLI by default unless there are errors. 
+
+e.g. PS C:\Users\suraj\Documents> cp 'Bird Pictures' C:\Users\suraj\Desktop\ -Recurse -Verbose
+
+Note: The above command copies the 'Bird Pictures' and its inside content as well as shows the details of copied items as output.
+
+Linux:
+* suraj@SurajVM:~/Documents$ cp my_cool_file.txt ~/Desktop
+* suraj@SurajVM:~/Documents$ cp *.png ~/Desktop
+* suraj@SurajVM:~/Documents$ cp -r 'Cat Pictures' ~/Desktop : This copies the cat pictures folder with all its contents to the desktop.
+-------------------------------------------------------------------------------------------------------------------------------
+
+19. Renaming and Moving Files/Folders:
+
+A. mv old_filename new_filename: mv used to rename the file.
+
+e.g. PS C:\Users\suraj\Desktop> mv mycoolfile.txt myhotcoolfile.txt
+
+B. mv file/folder(which we need to move) path(where we need to move the file/folder): mv used to move file or folder from one directory to another.
+
+e.g. PS C:\Users\suraj\Desktop> mv 'Bird Pictures' C:\Users\suraj\Desktop\OS Command Practice Folder\	: moves Bird Picture folder to OS Command Practice Folder.
+
+e.g. PS C:\Users\suraj\Desktop> mv *.jpg C:\Users\suraj\Desktop\OS Command Practice Folder\	: moves all the files with .jpg from Desktop to OS Command Practice Folder.
+
+Linux:
+* suraj@SurajVM:~/Documents$ mv my_cool_file.txt my_hot_file.txt : Rename.
+* suraj@SurajVM:~/Documents$ mv my_hot_file.txt ~/Desktop : Move file to desktop.
+* suraj@SurajVM:~/Documents$ mv *_document.txt ~/Desktop : Move all the files with _document.txt to desktop.
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+21. Delete / Remove files and folders:
+
+PowerShell rm (alias of Remove-Item)
+------------------------------------
+Command              | Purpose                                      | Example
+rm                   | Removes a file or empty folder               | rm "C:\Temp\file.txt"
+rm -Force            | Removes hidden or read-only files            | rm "C:\Temp\secret.txt" -Force
+rm -Recurse          | Removes folder and all contents              | rm "C:\Temp\OldLogs" -Recurse
+rm -Force -Recurse   | Removes folder + hidden/read-only files inside | rm "C:\Temp\Backup" -Force -Recurse
+
+* rm folder(with inside contents): Throws warning and asks for confirmation to delete.
+* If you directly want to remove all contents with folder then use rm -Recurse.
+* Removing hidden or read-only files/folders throws error showing no sufficient rights for this operation, use 'rm filename -Force' to remove.
+
+Linux rm
+--------
+Command              | Purpose                                      | Example
+rm file.txt          | Removes a file                               
+rm -f file.txt       | Force remove (ignore nonexistent files, no prompt) | rm -f secret.txt
+rm -r folder/        | Removes folder and all contents (recursive)  | rm -r old_logs/
+rm -rf folder/       | Force + recursive (delete everything inside, no prompt) | rm -rf backup/
+
+Notes:
+- In PowerShell, rm is an alias for Remove-Item.
+- In Linux, rm is a native command.
+- Be careful with -Force (PowerShell) and -rf (Linux) — they delete without asking, which can cause irreversible data loss.
+---------------------------------------------------------------------------------------------------------------------------
+
+22. Display File Contents
+
+GUI: Double click and file will open up in default app. To change default app: right click-> properties-> open with(default)-> change-> select preferred app.
+
+A. cat: (catenation) used to display the whole file content at once.
+
+e.g. PS C:\Users\suraj\OneDrive\Desktop> cat Projects\CProjects\03_calendar.c
+
+B. more: used to display the content as per screen size, and shows -- More -- option.
+   * enter: display content after first page one line by line.
+   * spacebar: display content page by page as per screen size.
+   * Q: Quit displaying content.
+
+e.g. PS C:\Users\suraj\OneDrive\Desktop> more .\Projects\CProjects\03_calendar.c
+
+C. -HEAD: used to get the first few specified lines of content
+
+e.g. PS C:\Users\suraj\OneDrive\Desktop> cat Projects\CProjects\03_calendar.c -HEAD 5
+This gives the first 5 lines of content from 03_calendar.c
+
+D. -TAIL: used to display the last few specified lines of content.
+
+e.g. PS C:\Users\suraj\OneDrive\Desktop> cat Projects\CProjects\03_calendar.c -TAIL 5 
+This gives the last 5 lines of content from 03_calendar.c
+
+
+Linux:
+* suraj@SurajVM:~$ cat important_document.txt
+* suraj@SurajVM:~$ less large_document.txt
+
+less: display full content as per screen size, and gives more functionality for navigation through the content.
+* up-down, page up,  page down
+* g : moves to the beginning of a text file.
+* G : moves to the end of a text file.
+* /word_to_search : this allows you to search for a word or phrase.
+* q : allows you to quit out of less and go back to your shell.
+
+To view first/last 10 lines:
+* suraj@SurajVM:~$ head fruits.txt
+* suraj@SurajVM:~$ tail fruits.txt
+--------------------------------------------------------------------------------------
+
+23. Modifying/Editing Text Files: There is no command to edit or modify the content of any text file. But Files can be edited in text editors like - notepad  or notepad++.
+Start notepad from CLI and edit the file content and save.
+
+e.g. PS C:\Users\suraj\OneDrive\Desktop> start notepad dummy.txt
+If dummy.txt does not exist then it(notepad) will prompt a pop up to create dummy.txt in the same directory from where the notepad is being launched.
+
+Linux:
+* suraj@SurajVM:~$ nano my_file.txt
+
+nano is a edit environment on Linux for editing/modifying the content of a file on terminal.
+^: keret - ctrl
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+24. PowerShell Commands:
+ 
+Original : Alias(PowerShell) : cmd.exe
+Get-ChildItem : ls : dir
+
+A. Get-Alias: used to get the original command for which the PowerShell alias has been created.
+
+e.g. PS C:\Users\suraj\OneDrive\Desktop> Get-Alias ni	: Result:  ni -> New-Item
+e.g. PS C:\Users\suraj\OneDrive\Desktop> Get-Alias ls	: Result:  ls -> Get-ChildItem
+e.g. PS C:\Users\suraj\OneDrive\Desktop> Get-Alias dir	: Result:  dir -> Get-ChildItem
+
+To know about any command:
+1. PowerShell: use "Get-Help". e.g. PS C:\Users\suraj\OneDrive\Desktop> Get-Help ls
+2. Command Prompt(cmd.exe): use "/?". e.g. PS C:\Users\suraj\OneDrive\Desktop> dir /?
+
+Note: ls /? will not work in command prompt as ls is an PowerShell alias for Get-ChildItem. For cmd.exe use 'dir' instead of ls.
+-------------------------------------------------------------------------------------------------------------------------------
+
+25. Searching within Files:
+
+A. Select-String / sls: used to search the specified string within the file. It returns the line number and the line content with the searched string.
+
+Format: Select-String "string-to-search" file_path
+
+e.g. PS C:\Users\suraj> Select-String "nice" '.\Desktop\OS Command Practice Folder\1.txt'
+     Desktop\OS Command Practice Folder\1.txt:1:hello world you are nice
+
+e.g. PS C:\Users\suraj> sls "nice" '.\Desktop\OS Command Practice Folder\1.txt'
+     Desktop\OS Command Practice Folder\1.txt:1:hello world you are nice
+
+e.g. PS C:\Users\suraj>sls "word" *.txt
+This displays all the lines which contains word from all the .txt files under suraj directory.
+
+B. Notepad++ : Ctrl-Shift-F -> type the string in Find What -> Select directory -> Find/Find All.
+
+Linux:
+* suraj@SurajVM:~$ grep cow farm_animals.txt : grep used to search string within files in Linux.
+* suraj@SurajVM:~$ grep cow *_animals.txt : this searches all the files with extenstion _animals.txt for cow.
+
+------------------------------------------------------------------------------------------------
+
+26. Indexing Options (from Control Panel): used to set the file and content index in the system. It may take some time or can be superfast while indexing depending on the no. of files and size.
+
+Steps:
+1. In search-bar type Indexing Options
+2. Select Users
+3. Select Advanced
+4. Select File Types tab
+5. Select Index Properties and File Contents
+6. Ok and close.
+
+This will set the index for the files and its contents throughout the system in the Users.
+-----------------------------------------------------------------------------------------
+
+27. -Filter: This parameter used to filter the results for file names that match a pattern.
+eg. PS C:\Users\suraj> ls .\Desktop\ -Recurse -Filter *.txt
+This list all the .txt files of Desktop folder.
+------------------------------------------------------------------------------------------
+Input-Output:
+
+28. Echo: Write text on Screen, File
+Echo is alias for Write-Output.
+
+A. echo: Alia for Write-Output: used to write the input text to be displayed on the PowerShell command screen.
+
+e.g. PS C:\Users\suraj\Desktop> echo text
+     text
+
+B. echo "text" > filename: Print or override the input text to a file. If file does not exists then new file is created.
+
+e.g. PS C:\Users\suraj\Desktop> echo "my help desk to the computer world. Hi I am suraj chauhan." > dog.txt
+     PS C:\Users\suraj\Desktop> cat dog.txt			# cat used to get the content of dog.txt on PowerShell screen.
+     my help desk to the computer world. Hi I am suraj chauhan.
+
+C. Append text: echo "text" >> filename
+
+e.g. PS C:\Users\suraj\Desktop> echo "I am from Rkl" >> dog.txt
+     PS C:\Users\suraj\Desktop> cat dog.txt
+     my help desk to the computer world. Hi I am suraj chauhan.
+     I am from Rkl
+
+Note: 1. ">": redirection for override
+      2. ">>": redirection for append
+------------------------------------------------------------------------------------------------------
+I/O Streams: Input/Output Stream:
+
+30. Standard Input Output Error:
+
+A. stdin
+B. stdout
+C. stderror
+-------------------
+
+31. A. "|": Bit operator: used to combine the commands together. It is used to send the output of one command to the input of another command (Pipeline).
+
+A. Fetch content from file and Select string:
+
+e.g. PS C:\Users\suraj\Desktop> cat dog.txt | Select-String st
+     street
+     blast
+
+B. Fetch content, select specific string and write to another file.
+
+e.g. PS C:\Users\suraj\Desktop> cat dog.txt | Select-String ee > words.txt
+     PS C:\Users\suraj\Desktop> cat words.txt
+     street
+     tree
+---------------------------------------------------------------------------
+
+32. "2>":  Diverting/Redirecting output errors from command screen to another file while deleting the hidden or read only file.
+e.g. PS C:\Users\suraj\Desktop> rm secure_file.txt
+This throws error on the screen right away.
+
+e.g. PS C:\Users\suraj\Desktop> rm secure_file.txt 2> errors.txt
+     PS C:\Users\suraj\Desktop> cat errors.txt
+The output errors will be stored in errors.txt and it will display on cat on screen.
+
+Difference between 1> & 2>:
+1>: stdout - the output
+2>: stderr - the error
+
+# Redirecting error message to $null (to nothing or nowhere) - to filter the output from error message.
+
+e.g. PS C:\Users\suraj\Desktop> rm words.txt 2> $null
+     No error message stored as we don't care about the error here.
+
+# Get-help about_redirection
+
+
+Linux:
+Input/Output Stream: stdin, stdout, stderr
+
+* suraj@SurajVM:~$ echo woof > dog.txt  : override redirection dog.txt with woof.
+
+* suraj@SurajVM:~$ echo woof >> dog.txt : append redirection
+
+"<": used to get the input from a file rather than keyboard input.
+
+* suraj@SurajVM:~$ cat < file_input.txt
+Output: Some file input!
+
+* suraj@SurajVM:~$ ls /dir/fake_dir 2> error_output.txt
+  suraj@SurajVM:~$ cat error_output.txt
+Output: ls: cannot access '/dir/fake_dir': No such file or directory.
+
+# Redirecting error message to "/dev/null"
+* suraj@SurajVM:~$ less /var/log/syslog 2> /dev/null
+Now the output is filtered from the error message.
+
+# "|": pipe redirector - used to send input of one command to the output of another command (Pipeline).
+* suraj@SurajVM:~$ ls -la /etc | grep Bluetooth
+Output: drwxr-xr-x 2 root root 4096 Oct 5 13:38 Bluetooth
+
+-------------------------------------------------------------------------------------------------------
+
+Advanced Navigation:
+
+Regular Expressions: used to help you do advanced pattern-based selection.
+-------------------------------------------------------------------------
