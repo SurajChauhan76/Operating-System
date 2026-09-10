@@ -1,0 +1,332 @@
+Users and Permissions:
+
+A single computer is used by multiple account holders. These users are isolated from each other. No users can see or have the access to the other users files and directories.
+
+Types of Users:
+1. Standard users
+2. Administrators
+
+Standard Users: One who is given access to a machine but has restricted access to do things like install software or change certain settings.
+
+Administrator(Admin): A user that have complete control over a machine. (All access & rights). 
+
+Admin can view anyone's account, change or remove anyone on the computer, and can view every single file.
+
+Admin maintains the software installs and restrictions for the different users on public machine/computers.
+
+For a Personal Computer:
+Admin: All access and rights
+Parents: Can't install software
+Children: Can't install software. Child safety restrictions.
+----------------------------------------------------------------------------------------------------------
+
+Computer Management Tool: 
+------------------------
+A tool which has - system tools (taks scheduler, event viewer, shared folders, performance, device manager), storage (disk management), services & applications (services, WMI control).
+
+Windows domain: A network of computers, users, files, etc that are added to a central database.
+
+User Account Control(UAC): A feature in Windows that prevents unauthorized changes to a system.
+
+Control Panel:
+# If local users and groups not visible in computer management under system tools(because its for pro, enterprise, education edition, not for home desktop).
+Use the Control Panel -> User Accounts: to handle the users and groups.
+----------------------------------------------------------------------
+
+1. Get-LocalUser / glu: used to check/get the list/information/details of users on the computer.
+
+e.g. PS C:\Users\suraj> Get-LocalUser
+Name            Enabled  Description
+----            -------  -----------
+Administrator   False    Built-in account for administering the computer/domain
+
+2. Get-LocalGroup / glg: Used to get the list of user groups on the computer.
+
+e.g. PS C:\Users\suraj\Desktop> Get-LocalGroup
+Name        Description
+----        -----------
+ORA_DBA     Oracle DBA Group
+
+3. Get-LocalGroupMember GroupName: Get the list of specified group members.
+e.g. 
+PS C:\Users\suraj\Desktop> Get-LocalGroupMember Administrators
+
+ObjectClass Name                          PrincipalSource
+----------- ----                          ---------------
+User        LAPTOP-8C525NJS\Administrator Local
+User        LAPTOP-8C525NJS\suraj         MicrosoftAccount
+---------------------------------------------------------------------------
+Linux:
+Root user: First user that gets automatically created when we install a Linux OS.
+
+------------------------
+
+Windows Home Desktop doesn’t include the Local Users and Groups (lusrmgr.msc) snap-in. But you can still practice using:
+
+Command Prompt / PowerShell
+1. net user → lists all local users
+2. net user <username> <password> /add → creates a new user
+3. net localgroup → lists groups
+4. net localgroup <groupname> <username> /add → adds a user to a group
+5. net user <username> /delete → deletes a user
+
+GUI way to add/remove accounts and assign roles:
+Settings → Accounts → Family & other users.
+------------------------------------------
+
+Create new user and group:
+** Run the PowerShell as Administrator **
+
+1. Create a New User: 
+New-LocalUser -Name "TestUser" -Password (Read-Host -AsSecureString "Enter Password") -FullName "Test User" -Description "Practice account"
+
+Check: Get-LocalUser TestUser
+
+2. Update/Edit User Details:
+
+Local User (Windows machine):
+Set-LocalUser -Name "testuser3" -Description "Practice Account 3"
+
+Domain User (Active Directory):
+If you’re in a domain environment, you’ll use Set-ADUser (requires RSAT or AD module).
+
+e.g. # Update display name
+Set-ADUser -Identity "suraj.chauhan" -DisplayName "Suraj Chauhan"
+
+# Update email address
+Set-ADUser -Identity "suraj.chauhan" -EmailAddress "suraj@example.com"
+
+# Update multiple properties at once
+Set-ADUser -Identity "suraj.chauhan" -GivenName "Suraj" -Surname "Chauhan" -Office "Gurugram"
+
+
+3. Create a New Group: 
+New-LocalGroup -Name "TestGroup" -Description "Practice Group"
+
+Check: Get-LocalGroup TestGroup
+-------------------------------------------------------------------------------------
+
+3. Add Member to Group: 
+Add-LocalGroupMember -Group "TestGroup" -Member "TestUser"
+
+Check: Get-LocalGroupMember -Group "TestGroup"
+
+4. Add multiple Members at a time: Add-LocalGroupMember -Group "TestGroup" -Member "User1", "User2"   # list of users passed in the form of array like preceding one.
+
+Check: Get-LocalGroupMember -Group "TestGroup"
+
+5. Looping for Many Users - If you have a longer list, you can store them in a variable and loop:
+
+$users = @("TestUser C","TestUser D","TestUser E")
+
+foreach ($u in $users) {
+    Add-LocalGroupMember -Group "TestGroup 2" -Member $u
+}
+-------------------------------------------------------------------------------------------------
+
+6. Remove/Delete Member out of the Group:  Remove-LocalGroupMember -Group "TestGroup" -Member "TestUser"
+
+Check: Get-LocalGroupMember -Group "TestGroup"
+
+7: Remove User and Group:
+
+A. Delete user: Remove-LocalUser -Name "TestUser"
+
+B. Delete group: Remove-LocalGroup -Name "TestGroup"
+---------------------------------------------------
+
+8. Modify User Properties (Enable & Disable):
+
+A. Disable the account: 
+Disable-LocalUser -Name "TestUser"
+
+B. Re-enable: 
+Enable-LocalUser -Name TestUser  
+# If name does not contain any space the double quote is not required.
+
+Account is not disabled (Enable Account using net command): 
+net user "TestUser" /active:yes
+
+---------------------------------------------------------
+
+9. User Password:
+
+A. Change User Password: net user "UserName" "NewPassword"
+
+e.g. PS C:\WINDOWS\system32> net user "TestUser A" '234'
+The command completed successfully.
+
+B. Change User Password using *: 
+
+e.g. PS C:\WINDOWS\system32> net user "TestUser A" *
+Type a password for the user:
+Retype the password to confirm:
+The passwords do not match.
+
+C. Change User Password at Next Logon: (/logonpasswordchg:yes)
+
+e.g. PS C:\WINDOWS\system32> net user "TestUser A" /logonpasswordchg:yes
+The command completed successfully.
+
+10. Windows File Permission:
+In Windows, files and directory permissions are assigned using Access Control Lists or ACLs. Specifically, we're gonna work with Discretionary Access Control Lists or DACLs.
+
+Windows files and folders can also have System Access Control Lists or SACLs assigned to them.
+
+A. Read: Lets you see that a file exists, and allows you to read its contents. It also lets you read the files and directories in a directory.
+
+B. Read and Execute: Lets you read files, and if the file is an executable, you can run the file.
+Read and Execute includes Read, so if you select Read & Execute, Read will be automatically selected.
+
+
+------------------------------------------------------------------------
+
+
+Linux Password:
+When you set a password it's securely scrambled, then stored in a special privileged file called /etc/shadow.
+
+1. passwd username: To change the password
+
+
+2. sudo passwd -e username: To force the standard user to change the password. This will immediately expire user's password and make them set new password the next time they login.
+
+File Permissions in Linux: 3 types:
+1. Read: Allows someone to read the contents of a file or folder.
+2. Write: Allows someone to write information to a file or folder.
+3. Execute: Allows someone to execute a program.
+
+Command: ls -l ~/my_file
+Output: -rwxrw-r-- 1 cindy cool_group 0 Oct 9 17:48 /home/cindy/my_file
+Explanation: 1st trio (rwx) - read, write, execute permission given to user cindy.
+2nd trio (rw-) - read, write permission given to group cool_group but no execute permission.
+3rd trio (r--) - only read permission given to others.
+
+-------------------------------------------------------------------
+
+New terms and their definitions: Course 3 Module 2
+ACL: Access Control Lists
+
+Administrator: A user that has complete control over a machine
+
+Biometric data: A way of protecting your accounts and information using biometric data such as facial recognition and fingerprint
+
+Computer management: A tool that lets you manage a local or remote computer
+
+DACL: Discretionary Access Control List
+
+File permissions: A process for setting permissions for who has access to certain files
+
+Full control: A user or group with full control that can do anything they want to files
+
+Inherit only: A permission group that means that a DACL will be inherited, but not applied to a container
+
+List folder contents: A command that will execute and list folder contents and is an alias for Read and Execute
+
+Mobile device management: A system used to apply and enforce rules about how the device has to be configured and used
+
+Modify: An umbrella permission that includes read and execute and write
+
+Primary account: The initial account you made during setup
+
+Read and execute permission: Permissions that grant you access to read the file that exists and execute it if its runnable
+
+Read permission: Permissions that grant you access to read the file that exists
+
+Root user: It is the first user that gets automatically created when we install a Linux OS and has all the privileges on the OS. Also called the super user. There's technically only one superuser or root account, but anyone that's granted access to use their powers can be called a superuser too
+
+SACL’s: System Access Control List
+
+Simple permissions: Special or specific permissions
+
+Single sign on (SSO): An account that grants you access to multiple accounts without require constant entry of a password or username
+
+Standard user: A user who is given access to the machine but has restricted access to do thing like install software or change certain setting
+
+Windows domain: A network of computers and users that are added to a central database
+
+Write permission: A permission that allows you to make changes to a file
+
+
+
+Terms and their definitions from previous modules
+A
+
+Absolute path: It is one that starts from the main directory
+
+Alias: A nickname for common commands
+
+Appending flags: A way to add the data of the file without erasing existing data
+
+B
+
+Bash: The language used to interact with the shell
+
+C
+
+CLI: Command line interpreter
+
+Command line: A text interface program for a computer that inputs text commands and translates them to the operating system
+
+E
+
+Escape characters: A concept that means that the next character after the back tick should be treated literally
+
+.exe: A file extension found in Windows for an executable file
+
+G
+
+Groups: A collection of users
+
+GUI: A graphical user interface
+
+H
+
+Hidden files: A set of files that are not visible either to avoid alteration or simply because you don’t want someone to see them
+
+Hot key: A keyboard shortcut that does a particular task
+
+I
+
+I/O Streams: An input stream handles data flowing into and out of a program
+
+P
+
+Parameter: A value that is associated with a command 
+
+Parent directory & child directories: A parent directory is a directory that houses all subsequent child directories
+
+Paths: A main directory that branches off and holds other directories and files
+
+Prompt: A prompt shows you which directory you’re currently in
+
+R
+
+Regular expression: A pattern matching language that describes words, phrases, or more complicated patterns; regular expressions are used to help you do advanced pattern based selection
+
+Relative path: It is a path from your current directory
+
+Root directory: A parent directory for all other directories in a file system
+
+S
+
+Shell: A shell is a command line interpreter for Linux
+
+Standard error (stderr): A data stream that redirect the output of error messages in a different output stream. It works both in Linux and Windows
+
+Standard In (stdin): A data stream in which the input that you provide through the keyboard goes to the standard in stream of the process that you're interacting with. It works both in Linux and Windows
+
+Standard out (stdout): A data stream that when a process creates output, it adds data to the standard out stream, which flows out of the process. It works both in Linux and Windows
+
+Stdin, stdout, stderr: Three data streams created when you launch a Linux command
+
+Subdirectories: A directory below or at a deeper level in the directory hierarchy
+
+T
+
+Tab completion: A way to auto-complete a command or file names and directories
+
+W
+
+Wildcard (*): A character that is used to help select files based on a certain pattern
+
+Windows Search service: A service that indexes files on your computer by looking through them on a schedule 
